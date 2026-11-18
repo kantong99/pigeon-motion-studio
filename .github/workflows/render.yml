@@ -1,0 +1,36 @@
+
+name: Render pigeon video
+
+on:
+  workflow_dispatch:
+    inputs:
+      composition:
+        description: "Pilih video merpati"
+        required: true
+        default: "PIGEON-001"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Render video
+        run: npx remotion render src/index.jsx "${{ github.event.inputs.composition }}" out/video.mp4 --codec=h264 --crf=23 --scale=0.5
+
+      - name: Upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: pigeon-video
+          path: out/video.mp4
+          retention-days: 7
