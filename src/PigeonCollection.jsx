@@ -14,7 +14,7 @@ const Bird=({x,y,s=1,flip=false,frame=0,perch=false,color="#687681"})=>{
  {perch&&<path d="M-5 22v28m0-12l-12 8m12-8l10 8" stroke="#bd7040" strokeWidth="5" fill="none"/>}
  </g>;
 };
-const Flock=({frame,count=20,y=470})=><svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%">{Array.from({length:count},(_,i)=><Bird key={i} x={((i*173+frame*(2.5+i%3*.4))%2200)-100} y={y+Math.sin(i*2+frame*.03)*130+(i%4)*20} s={.3+(i%4)*.1} flip={i%3===0} frame={frame}/>)}</svg>;
+const Flock=({frame,count=20,y=470})=><svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%">{Array.from({length:count},(_,i)=><Bird key={i} x={((i*173+frame*(2.5+i%3*.4))%2200)-100} y={y+Math.sin(i*2+frame*.03)*130+(i%4)*20} s={.3+(i%4)*.1} flip={i%3===0} frame={frame}/>;})}</svg>;
 const Background=({top="#59b8ed",bottom="#e1f6ff"})=><AbsoluteFill style={{background:`linear-gradient(${top},${bottom})`}}><svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%"><Cloud x={250} y={220} s={1.4}/><Cloud x={1000} y={150}/><Cloud x={1550} y={280} s={1.5}/></svg></AbsoluteFill>;
 const Scene=({variant,f})=>{
  if(variant===1)return <><Background/><Flock frame={f} count={28}/></>;
