@@ -123,12 +123,25 @@ const Bird = ({
   );
 };
 
+
 const Flock = ({ frame, count = 24, y = 460, dark = false }) => (
   <g>
     {Array.from({ length: count }, (_, i) => {
-      const x = ((i * 197 + frame * (3.2 + (i % 4) * 0.65)) % 2300) - 180;
-      const yy = y + Math.sin(frame * 0.035 + i * 1.8) * 115 + (i % 5) * 24;
-      const size = 0.42 + (i % 4) * 0.16;
+      // Posisi burung bergerak seragam dari kiri ke kanan
+      const speed = 4.2;
+      const spacing = 175;
+      const x = ((i * spacing + frame * speed) % 2300) - 180;
+
+      // Formasi kawanan bergelombang, tetapi tetap kompak
+      const row = i % 5;
+      const column = Math.floor(i / 5);
+      const yy =
+        y +
+        row * 32 +
+        Math.sin(frame * 0.045 + column * 0.25) * 24;
+
+      // Ukuran bervariasi berdasarkan jarak
+      const size = 0.48 + (i % 4) * 0.12;
 
       return (
         <Bird
@@ -136,9 +149,13 @@ const Flock = ({ frame, count = 24, y = 460, dark = false }) => (
           x={x}
           y={yy}
           s={size}
-          frame={frame + i * 4}
-          flip={i % 3 === 0}
-          color={dark ? "#34313b" : ["#687985", "#aab5bc", "#596875", "#d4dadd"][i % 4]}
+          frame={frame}
+          flip={false}
+          color={
+            dark
+              ? "#34313b"
+              : ["#687985", "#aab5bc", "#596875", "#d4dadd"][i % 4]
+          }
         />
       );
     })}
